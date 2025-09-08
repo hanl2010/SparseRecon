@@ -41,7 +41,7 @@ pip install -r requirements.txt
 ```
 
 ### Dataset
-- Download the processed dataset: [DTU]() and [BlendedMVS](https://drive.google.com/file/d/1u6xmQicjcOdQVKismwC_5d_WGjND2lLn/view?usp=sharing)
+- Download the processed dataset: [DTU](https://drive.google.com/file/d/1ph5dk7ZAjDhDueB3yzHx2NE2arUGDe6i/view?usp=drive_link) and [BlendedMVS](https://drive.google.com/file/d/1u6xmQicjcOdQVKismwC_5d_WGjND2lLn/view?usp=sharing)
 
 ### Obtaining and Calibration of Monocular Depth 
 
