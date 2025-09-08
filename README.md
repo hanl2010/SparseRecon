@@ -65,7 +65,7 @@ python tools/calibrate_depth.py --data_root <DATA_PATH> --dataset_name <DTU or B
 
 
 ### Training and Evaluation 
-Download the pretrained weight of **VisMVSNet** from [here](https://drive.google.com/drive/folders/14RV5GdHv6sReFMfEwMrXAfvIAasNlmKg), and put it in *feat_extractor/vismvsnet*
+Download the pretrained weight of [VisMVSNet](https://github.com/jzhangbs/Vis-MVSNet) from [here](https://drive.google.com/drive/folders/14RV5GdHv6sReFMfEwMrXAfvIAasNlmKg), and put it in *feat_extractor/vismvsnet*
 
 
 - **DTU dataset**
