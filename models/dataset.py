@@ -327,7 +327,7 @@ class Dataset:
         N = len(cameras_center_src)
         M = len(cameras_center_target)
 
-        cos_max = np.cos(angle_max * np.pi / 180)  # cos(30) = 0.866
+        cos_max = np.cos(angle_max * np.pi / 180)
         min_neighbor_num = np.inf
 
         pairs_index = []
