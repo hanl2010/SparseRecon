@@ -18,7 +18,7 @@ Feature and Depth Consistencies </h1>
 <h2 align="center">ICCV 2025</h2>
 
 
-## [Project page](https://hanl2010.github.io/SparseRecon/) |  [Paper](https://arxiv.org/abs/2508.00366) | [Data]()
+## [Project page](https://hanl2010.github.io/SparseRecon/) |  [Paper](https://arxiv.org/abs/2508.00366)
 This is the official repo for the implementation of **SparseRecon: Neural Implicit Surface Reconstruction from Sparse Views with Feature and Depth Consistencies**.
 
 ## Usage
