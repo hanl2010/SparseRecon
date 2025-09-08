@@ -63,9 +63,10 @@ python tools/depth_estimation_marigold.py --data_root <DATA_PATH> --dataset_name
 python tools/calibrate_depth.py --data_root <DATA_PATH> --dataset_name <DTU or BlendedMVS> --depth_folder <depths_omnidata or depths_marigold>
 ```
 
-Download the pretrained weight of VisMVSNet from [here](https://drive.google.com/drive/folders/14RV5GdHv6sReFMfEwMrXAfvIAasNlmKg), and put it in *feat_extractor/vismvsnet*
 
 ### Training and Evaluation 
+Download the pretrained weight of **VisMVSNet** from [here](https://drive.google.com/drive/folders/14RV5GdHv6sReFMfEwMrXAfvIAasNlmKg), and put it in *feat_extractor/vismvsnet*
+
 
 - **DTU dataset**
 
