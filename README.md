@@ -28,7 +28,7 @@ This is the official repo for the implementation of **SparseRecon: Neural Implic
 1. Clone this repository
 
 ```shell
-git clone https://github.com/hanl2010/SparseRecon-code.git
+git clone https://github.com/hanl2010/SparseRecon.git
 ```
 2. Setup Environment
 
