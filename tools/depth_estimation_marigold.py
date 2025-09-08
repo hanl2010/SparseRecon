@@ -45,9 +45,8 @@ if "__main__" == __name__:
     parser.add_argument(
         "--checkpoint",
         type=str,
-        # default="Bingxin/Marigold",
-        default="/data10_1/hanl/.cache/huggingface/hub/models--Bingxin--Marigold/snapshots/0431bc71fafe5b8e86f3e1d9d594e299032d1c5f",
-        # default="C:/Users/hanl/.cache/huggingface/hub/models--Bingxin--Marigold/snapshots/0431bc71fafe5b8e86f3e1d9d594e299032d1c5f",
+        default="Bingxin/Marigold",
+        # default="/home/user_name/.cache/huggingface/hub/models--Bingxin--Marigold/snapshots/0431bc71fafe5b8e86f3e1d9d594e299032d1c5f",
         help="Checkpoint path or hub name.",
     )
     parser.add_argument("--data_root", type=str, required=True, help="Path to the input image folder.",)

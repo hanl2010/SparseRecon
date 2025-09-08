@@ -41,7 +41,8 @@ pip install -r requirements.txt
 ```
 
 ### Dataset
-- Download the processed dataset: [DTU](https://drive.google.com/file/d/1ph5dk7ZAjDhDueB3yzHx2NE2arUGDe6i/view?usp=drive_link) and [BlendedMVS](https://drive.google.com/file/d/1u6xmQicjcOdQVKismwC_5d_WGjND2lLn/view?usp=sharing)
+- Download the processed dataset: [DTU](https://drive.google.com/file/d/1ph5dk7ZAjDhDueB3yzHx2NE2arUGDe6i/view?usp=drive_link) and [BlendedMVS](https://drive.google.com/file/d/1u6xmQicjcOdQVKismwC_5d_WGjND2lLn/view?usp=sharing).
+- The complete dataset can be downloaded from [S-VolSDF](https://github.com/cvlab-stonybrook/s-volsdf).
 
 ### Obtaining and Calibration of Monocular Depth 
 

@@ -11,11 +11,6 @@ parser.add_argument('--GT_data_path', type=str, default='GT_DTU_PATH')
 parser.add_argument("--feature_extractor", choices=["vismvsnet", "mvsformer", "transmvsnet"], default="vismvsnet")
 args = parser.parse_args()
 
-# args.data_path = "/data16_1/hanl/data/public_dataset/DTU_sparse/small_overlap"
-# args.data_path = "/data16_1/hanl/data/public_dataset/DTU_sparse/large_overlap"
-# args.data_path = "E:/data/public_dataset/DTU/large_overlap"
-# args.GT_data_path = "/data16_1/hanl/data/public_dataset/DTU_sampleSet"
-# args.GT_data_path = "E:/data/public_dataset/DTU_sampleSet"
 
 if "small_overlap" in args.conf:
        data_type = "small_overlap"

@@ -117,11 +117,6 @@ if __name__ == "__main__":
     parser.add_argument("--overlap_type", type=str, default='small_overlap')
     args = parser.parse_args()
 
-    args.input_mesh = "../../output/DTU/scan21_3views_patch_warp_feat_warp_depth_gt_embed/meshes/00100000_512.ply"
-    args.scan_id = "21"
-    args.output_dir = "../../output/DTU/scan21_3views_patch_warp_feat_warp_depth_gt_embed/meshes/"
-    args.mask_dir = "E:\data\public_dataset\DTU"
-    args.DTU = "E:\data\public_dataset\DTU_sampleSet"
 
     if args.overlap_type == "small_overlap":
         image_indices = [22, 25, 28]

@@ -88,14 +88,14 @@ def camTodatabase(txtfile, database_path):
 
 ###############################################################################
 parser = ArgumentParser()
-parser.add_argument("--cases", nargs="+", type=int, default=[8])
+parser.add_argument('--data_dir', type=str, default='BlendedMVS data path')
+parser.add_argument("--cases", nargs="+", type=int, default=[])
 parser.add_argument("--gpu", type=str, default="0")
 args = parser.parse_args()
 
-data_dir = "E:/data/public_dataset/data_s_volsdf/BlendedMVS/BlendedMVS_sparse"
 bmvs_scenes = [1,2,3,4,5,6,7,8,9]
 
-
+data_dir = args.datadir
 gpu_index = args.gpu
 image_w = 768
 image_h = 576
@@ -107,7 +107,6 @@ else:
 
 for scene in scenes:
     scene_name = f"scan{scene}"
-    # scene_name = f"scan{scene}_colmap"
     print(f"processing {scene_name} ...")
     scene_path = os.path.join(data_dir, scene_name)
     image_path = os.path.join(scene_path, "images")
@@ -171,42 +170,6 @@ for scene in scenes:
         for cam in sub_cameras:
             line = " ".join([str(elem) for elem in cam])
             f.write(line + "\n")
-
-    ####### 使用全部视图colmap重建时产生的相机参数 #############
-    # cameras, images, point3D = read_model(path=sparse_path, ext=".bin")
-    # sub_cameras = []
-    # sub_images = []
-    # idx = 0
-    # for _, image in images.items():
-    #     if image.name in train_image_list:
-    #         idx += 1
-    #         sub_images.append([idx, *image.qvec, *image.tvec, idx, image.name])
-    #         camera = cameras[image.camera_id]
-    #         sub_cameras.append([idx, camera.model, camera.width, camera.height, *camera.params])
-    #
-    # sub_images = sorted(sub_images, key=lambda x: x[-1])
-    # for index in range(len(sub_images)):
-    #     sub_images[index][0] = index + 1
-    #
-    # point3d_file = os.path.join(sub_model_path, "points3D.txt")
-    # with open(point3d_file, "w") as f:
-    #     f.write("")
-    #
-    # camera_file = os.path.join(sub_model_path, "cameras.txt")
-    # with open(camera_file, "w") as f:
-    #     for cam in sub_cameras:
-    #         line = " ".join([str(elem) for elem in cam])
-    #         f.write(line + "\n")
-    # # write_cameras_text(cameras, camera_file)
-    #
-    # images_file = os.path.join(sub_model_path, "images.txt")
-    # with open(images_file, "w") as f:
-    #     for image in sub_images:
-    #         line = " ".join(map(str, image))
-    #         f.write(line + "\n")
-    #         f.write("\n\n")
-
-    #############################################################
 
     point3d_file = os.path.join(model_path, "points3D.txt")
     with open(point3d_file, "w") as f:

@@ -5,15 +5,15 @@ import shutil
 from tqdm import tqdm
 
 scenes = [21, 24, 34, 37, 38, 40, 82, 106, 110, 114, 118]
-data_path = "E:/data/public_dataset/DTU"
-data_type = "large_overlap"
+data_path = "original DTU dataset path "
+data_type = "large_overlap or small_overlap"
 
 if data_type == "small_overlap":
     image_indices = [22, 25, 28]
-    new_data_path = "E:/data/public_dataset/DTU/small_overlap"
+    new_data_path = "DTU dataset new path (sparse images of small_overlap)"
 else:
     image_indices = [23, 24, 33]
-    new_data_path = "E:/data/public_dataset/DTU/large_overlap"
+    new_data_path = "DTU dataset new path (sparse images of large_overlap)"
 
 for scene in tqdm(scenes):
     scene_path = os.path.join(data_path, f"scan{scene}")

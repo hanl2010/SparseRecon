@@ -160,7 +160,7 @@ def depth_sample2point_world(depth_sample, uv, intrinsic_matrix, c2w, normal_ray
 
 def get_projected_pixel_color(points, camera, src_camera, main_uv):
     """
-    把光线上的点映射到图像上，得到图像上的颜色值
+    Project the points on the ray onto image, and obtain the corresponding colors on the image.
     """
     sample = {}
 
@@ -176,10 +176,10 @@ def get_projected_pixel_color(points, camera, src_camera, main_uv):
 
     src_uv, _ = point_world2depth(points.reshape(-1, 3), src_camera.intrinsic, src_pose_inv)
     src_uv = src_uv.reshape(n_view, N * n_p, 1, 2)
-    src_uv_normal = src_uv * 2 / image_wh - 1.0  # 把坐标值归到 [-1, 1]
+    src_uv_normal = src_uv * 2 / image_wh - 1.0  # Rescale the coordinate values to the range of [-1, 1]
     src_image = src_image.permute(2, 0, 1).unsqueeze(0)
     src_mask = src_mask.permute(2, 0, 1).unsqueeze(0)
-    # 使用 grid sample 获取坐标对应的颜色值 和 mask值
+
     colors_pixel = F.grid_sample(src_image, src_uv_normal, align_corners=False)
     masks_pixel = F.grid_sample(src_mask, src_uv_normal, align_corners=False)
     colors_pixel = colors_pixel.permute(0, 2, 3, 1).reshape(n_view, N, n_p, 3)
@@ -198,7 +198,7 @@ def get_projected_pixel_color(points, camera, src_camera, main_uv):
 
 def get_projected_patch_color(points, camera, src_camera, main_uv):
     """
-    把光线上的点映射到图像上，得到图像上的颜色值
+    Project the points on the ray onto image, and obtain the corresponding colors on the image.
     """
     sample = {}
 
@@ -217,12 +217,12 @@ def get_projected_patch_color(points, camera, src_camera, main_uv):
     src_image = src_image.permute(2, 0 ,1).unsqueeze(0)
     src_mask = src_mask.permute(2, 0, 1).unsqueeze(0)
 
-    # 由point坐标产生patch的坐标
+    # Generate the coordinates of the patch based on the point coordinates
     offset = build_patch_offset(half_patch_size=5)
     # (n_view, N*n_p, 1, 2) (1, 1, patch, 2) -> (n_view, N*n_p, patch, 2)
     grid = src_uv.reshape(n_view, N*n_p, 1, 2) + offset[None, None, :, :]
-    grid_normal = grid * 2 / image_wh - 1.0 #把坐标值映射到 [-1, 1]
-    # 使用 grid sample 获取坐标对应的颜色值 和 mask值
+    grid_normal = grid * 2 / image_wh - 1.0 # Rescale the coordinate values to the range of [-1, 1]
+
     colors_patch = F.grid_sample(src_image, grid_normal, align_corners=False)
     masks_patch = F.grid_sample(src_mask, grid_normal, align_corners=False)
     colors_patch = colors_patch.permute(0, 2, 3, 1).reshape(n_view, N, n_p, -1, 3)
@@ -251,19 +251,18 @@ def sample_image_features(points, camera, src_camera, main_uv):
 
     image_wh = torch.tensor([camera.image_width-1, camera.image_height-1])
 
-    # 使用像素坐标获得对应位置的图像特征
     src_uv_reshape = src_uv.reshape(n_view, N * n_p, 1, 2)  # (n_view, Hc, Wc, 2)
     src_uv_normal = (src_uv_reshape * 2 / image_wh) - 1.0
 
+    # Obtain the image features at the corresponding pixel coordinates.
     src_latents = F.grid_sample(src_image_feature, src_uv_normal, align_corners=False)  # (1, C, Hc, Wc)
     src_latents = src_latents.permute(0, 2, 3, 1).reshape(n_view, N, n_p, -1)  # (n_view, N, n_p, C)
 
     src_latents_normalize = F.normalize(src_latents, dim=-1)
 
-    # 使用像素坐标获得对应位置的图像特征
     main_image_feature = camera.image_feature
     main_uv_reshape = main_uv.reshape(1, N, 1, 2).expand(1, N, n_p, 2)  # (1, Hc, Wc, 2)
-    main_uv_normal = (main_uv_reshape * 2 / image_wh) - 1.0  # 把uv转换到[-1, 1]之间
+    main_uv_normal = (main_uv_reshape * 2 / image_wh) - 1.0  #  Rescale the coordinate values to the range of [-1, 1]
     main_latents = F.grid_sample(main_image_feature, main_uv_normal, align_corners=False)  # (1, C, Hc, Wc)
     main_latents = main_latents.permute(0, 2, 3, 1).reshape(1, N, n_p, -1)  # (n_view, N, n_p, C)
     main_latents_normalize = F.normalize(main_latents, dim=-1)
@@ -272,9 +271,6 @@ def sample_image_features(points, camera, src_camera, main_uv):
 
 
 def get_projected_patch_feature(self, points, camera, src_camera, main_uv):
-    """
-    把光线上的点映射到图像上，得到图像上的颜色值
-    """
     sample = {}
 
     src_pose_inv = src_camera.w2c
@@ -288,12 +284,11 @@ def get_projected_patch_feature(self, points, camera, src_camera, main_uv):
     src_uv, _ = point_world2depth(points.reshape(-1, 3), src_camera.intrinsic, src_pose_inv)
     # src_uv = src_uv.reshape(n_view, N * n_p, 1, 2)
 
-    # 由point坐标产生patch的坐标
     offset = build_patch_offset()
     # (n_view, N*n_p, 1, 2) (1, 1, patch, 2) -> (n_view, N*n_p, patch, 2)
     grid = src_uv.reshape(n_view, N * n_p, 1, 2) + offset[None, None, :, :]
-    grid_normal = grid * 2 / image_wh - 1.0  # 把坐标值映射到 [-1, 1]
-    # 使用 grid sample 获取坐标对应的颜色值 和 mask值
+    grid_normal = grid * 2 / image_wh - 1.0
+
     src_feat_patch = F.grid_sample(src_image_feature, grid_normal, align_corners=False)
     src_feat_patch = src_feat_patch.permute(0, 2, 3, 1).reshape(n_view, N, n_p, -1, C)
     src_feat_patch_normalize = F.normalize(src_feat_patch, dim=-1)
@@ -314,14 +309,10 @@ def get_projected_patch_feature(self, points, camera, src_camera, main_uv):
 def get_occ_mask(rays_o, rays_d, depth, camera, src_camera, threshold=0.015):
     surf_points = rays_o + rays_d * depth
 
-    # # 计算从src cam center到表面点的距离,此表面点是ref view的可见表面点
-    # pose_src = src_camera.c2w
-    # src_cam_o = pose_src[:, :3, 3]
-    # src_dist = torch.pairwise_distance(src_cam_o[:, None, :], surf_points[None, :, :], keepdim=True)
+    ### Calculate the distance from the center of the source view to the surface point， which is visible from the reference view.
 
-    # 把表面点投影到src view, 获取pred depth
-    ### Attention: Nerf中使用normalized rays_d计算深度，不能使用下面投影的方式计算point_world的深度
-    ### 直接计算点到相机中心的距离，即可得到nerf渲染的深度
+    ### Project the surface points onto the src view, and obtain the pred depth in the source view.
+
     src_uv, _ = point_world2depth(surf_points, src_camera.intrinsic, src_camera.w2c)
     src_dist = torch.norm(surf_points - src_camera.c2w[None, :3, 3], dim=-1, keepdim=True)
     src_mask = ((src_uv[..., 0] >= 0) & (src_uv[..., 0] < camera.image_width) &
@@ -330,12 +321,12 @@ def get_occ_mask(rays_o, rays_d, depth, camera, src_camera, threshold=0.015):
     n_p = len(surf_points)
     image_wh = torch.tensor([camera.image_width-1, camera.image_height-1])
     src_uv = src_uv.reshape(n_view, n_p, 1, 2)
-    src_uv_normal = src_uv * 2 / image_wh - 1.0  # 把坐标值归到 [-1, 1]
+    src_uv_normal = src_uv * 2 / image_wh - 1.0
     src_depth = src_camera.pred_depth.permute(2,0,1)[None, ...]
     src_dist_pred = F.grid_sample(src_depth, grid=src_uv_normal, align_corners=False)
     src_dist_pred = src_dist_pred.reshape(n_p, 1)
     dist_error = src_dist - src_dist_pred
-    occ_mask = (dist_error > threshold).squeeze()  # 大于某一阈值的地方都认为是有遮挡的，即当前视角能看到的地方，别的视角看不到
+    occ_mask = (dist_error > threshold).squeeze()
     return (~occ_mask) & src_mask
 
 def get_depth_confidence_map(rays_o, rays_d, depth, main_uv, camera, src_camera, threshold=5.0):
@@ -347,7 +338,7 @@ def get_depth_confidence_map(rays_o, rays_d, depth, main_uv, camera, src_camera,
     src_mask = ((src_uv[..., 0] >= 0) & (src_uv[..., 0] < camera.image_width) &
                 (src_uv[..., 1] >= 0) & (src_uv[..., 1] < camera.image_height))
     src_uv = src_uv.reshape(n_view, n_p, 1, 2)
-    src_uv_normal = src_uv * 2 / image_wh - 1.0  # 把坐标值归到 [-1, 1]
+    src_uv_normal = src_uv * 2 / image_wh - 1.0
     src_depth = src_camera.pred_depth.permute(2,0,1)[None, ...]
     src_dist_pred = F.grid_sample(src_depth, grid=src_uv_normal, align_corners=False)
     src_dist_pred = src_dist_pred.reshape(n_p, 1)

@@ -246,7 +246,7 @@ class Runner:
                 rgb_patch_gt = sample["rgb_patch_gt"]  # (N, patch_size, 3)
 
                 ################################################
-                ### The following is the standard patch warp form, but sometimes "nan" may appear ###
+                ### The following is the standard patch warp ###
                 uv_normal = main_uv * 2 / torch.tensor([self.dataset.image_width-1, self.dataset.image_height-1]) - 1.0
                 rgb_patch, mask_patch, _ = self.patch_projector.patch_warp(points,
                                                                            uv=uv_normal,

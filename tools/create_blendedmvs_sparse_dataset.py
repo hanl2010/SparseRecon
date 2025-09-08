@@ -5,8 +5,8 @@ import shutil
 from tqdm import tqdm
 
 scenes = [1,2,3,4,5,6,7,8,9]
-data_path = "E:/data/public_dataset/data_s_volsdf/BlendedMVS"
-new_data_path = "E:/data/public_dataset/data_s_volsdf/BlendedMVS/BlendedMVS_sparse"
+data_path = "original BlendedMVS dataset path"
+new_data_path = "BlendedMVS dataset new path (sparse images)"
 
 bmvs_train_ids = {
     1: [9, 10, 55],

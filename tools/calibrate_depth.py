@@ -99,13 +99,7 @@ def read_fused_and_map_to_image(fused_ply, fused_ply_vis, poses, intrinsics):
 
         if len(points) != 0:
             points = np.stack(points, axis=0)
-        # 过滤噪声
-        # pcd = o3d.geometry.PointCloud()
-        # pcd.points = o3d.utility.Vector3dVector(points)
-        # cleaned_pcd, idx = pcd.remove_statistical_outlier(nb_neighbors=20, std_ratio=0.3)
-        # 转化为numpy
-        # points_filtered = np.asarray(cleaned_pcd.points)
-        # points_all.append(points_filtered)
+
         points_all.append(points)
 
 
@@ -159,10 +153,6 @@ if __name__ == '__main__':
     parser.add_argument("--depth_folder", type=str, default="depths_omnidata")
     args = parser.parse_args()
 
-    # args.dataset_name = "DTU"
-    # args.data_root = "E:/data/public_dataset/DTU/small_overlap"
-    # args.data_root = "/data14_1/hanl/data/public_dataset/DTU_sparse/small_overlap"
-    # args.data_root = "E:/data/public_dataset/data_s_volsdf/BlendedMVS"
 
     if args.dataset_name == "DTU":
         scenes = [21, 24, 34, 37, 38, 40, 82, 106, 110, 114, 118]
